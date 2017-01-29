@@ -183,6 +183,10 @@ public class Field {
 		return true;
 	}
 	
+	public int getMacro(int column, int row) {
+        	return mMacroboard[column][row];
+    	}
+	
 	/**
 	 * Returns the player id on given column and row
 	 * @param args : int column, int row
