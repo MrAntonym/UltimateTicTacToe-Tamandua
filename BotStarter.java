@@ -29,6 +29,8 @@ import java.util.Random;
  */
 
 public class BotStarter {
+    
+    Random r = new Random();
 
     /**
      * Makes a turn. Edit this method to make your bot smarter.
@@ -48,14 +50,34 @@ public class BotStarter {
         }
         
         
-		Move move = moves.get(r.nextInt(moves.size())); /* get random move from available moves */
+		move = moves.get(r.nextInt(moves.size())); /* get random move from available moves */
 		
 		return move;
 	}
     
     public boolean winning(Field field, Move move) {
         /* Check the macroBoard to see if winning this board will result in a win. */
-        
+        int[][] macro = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                macro[i][j] = field.getMacro(i, j);
+            }
+        }
+        /* This move must be on a board which hasn't been won and therefore it would be a valid move on the macro board. */
+        if (!boardWinning(((int) move.getX() / 3), ((int) move.getY() / 3), macro)) {
+            return false;
+        }
+        int[][] micro = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                micro[i][j] = field.getPlayerID(i, j);
+            }
+        }
+        if (boardWinning(move.getX(), move.getY(), micro)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     /**
@@ -93,3 +115,4 @@ public class BotStarter {
 		parser.run();
 	}
 }
+
